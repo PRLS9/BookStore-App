@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/blanco_card">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Portada, título, autor y género -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvDetalleLetra"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:textColor="@color/blanco_card"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_cover_placeholder"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDetalleTitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/comic_neue_bold"
+                    android:textColor="@color/texto_oscuro"/>
+
+                <TextView
+                    android:id="@+id/tvDetalleAutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/texto_oscuro"/>
+
+                <TextView
+                    android:id="@+id/tvDetalleGenero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/morado_bookstore"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Estado y tipo de oferta -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tvDetalleEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/blanco_card"
+                android:background="@drawable/bg_cover_placeholder"/>
+
+            <TextView
+                android:id="@+id/tvDetalleOferta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/blanco_card"
+                android:background="@drawable/bg_cover_placeholder"/>
+        </LinearLayout>
+
+        <!-- Información extra de la oferta -->
+        <TextView
+            android:id="@+id/tvDetalleOfertaExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/texto_oscuro"/>
+
+        <!-- Sinopsis -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Sinopsis"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/comic_neue_bold"
+            android:textColor="@color/texto_oscuro"/>
+
+        <TextView
+            android:id="@+id/tvDetalleSinopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/texto_oscuro"/>
+
+        <!-- Botones Obtener/Contactar y Cerrar -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnObtenerLibro"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Obtener"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/blanco_card"
+                android:backgroundTint="@color/azul_marino"
+                app:cornerRadius="24dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCerrarDetalle"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Cerrar"
+                android:textAllCaps="false"
+                android:textColor="@color/azul_marino"
+                app:strokeColor="@color/azul_marino"
+                app:cornerRadius="24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

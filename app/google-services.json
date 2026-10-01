@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121536361737",
+    "project_id": "librocircular-d8f7f",
+    "storage_bucket": "librocircular-d8f7f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121536361737:android:f13ee26c4e7741cd864fd8",
+        "android_client_info": {
+          "package_name": "com.example.bookstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIz++++++++++++++++++++aSyCIFLrYhdJb_YyH6LGKfh0pR1qEP_GJsro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

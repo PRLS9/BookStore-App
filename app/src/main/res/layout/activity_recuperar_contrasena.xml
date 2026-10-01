@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/fondo">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegresarRecuperar"
+        style="@style/BotonRegresar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:text="← Regresar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/blanco_card"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recuperar contraseña"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/comic_neue_bold"
+                android:textColor="@color/azul_marino"/>
+
+            <!-- FORMULARIO -->
+            <LinearLayout
+                android:id="@+id/llFormulario"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Escribe el correo con el que te registraste y te enviaremos un enlace para crear una nueva contraseña."
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/texto_oscuro"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCorreoRecuperar"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:boxStrokeColor="@color/azul_marino"
+                    app:hintTextColor="@color/azul_marino">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCorreoRecuperar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Correo electrónico"
+                        android:inputType="textEmailAddress"
+                        android:autofillHints="emailAddress"
+                        android:textColor="@android:color/black"
+                        tools:ignore="SpeakableTextPresentCheck"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEnviarEnlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Enviar enlace"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textColor="@color/blanco_card"
+                    android:backgroundTint="@color/azul_marino"
+                    app:cornerRadius="24dp"/>
+            </LinearLayout>
+
+            <!-- CONFIRMACIÓN (aparece después de enviar) -->
+            <LinearLayout
+                android:id="@+id/llConfirmacion"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="✉️ ¡Revisa tu correo!"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/comic_neue_bold"
+                    android:textColor="#2E8B57"/>
+
+                <TextView
+                    android:id="@+id/tvMensajeConfirmacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/texto_oscuro"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVolverLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Volver a iniciar sesión"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textColor="@color/blanco_card"
+                    android:backgroundTint="@color/azul_marino"
+                    app:cornerRadius="24dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReintentar"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="¿No te llegó? Intentar con otro correo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/morado_bookstore"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

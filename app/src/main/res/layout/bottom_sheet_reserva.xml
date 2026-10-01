@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/tvHojaTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📌 Reservar libro"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/comic_neue_bold"
+        android:textColor="@color/azul_marino"/>
+
+    <TextView
+        android:id="@+id/tvHojaLibro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="15sp"
+        android:textColor="@color/texto_oscuro"/>
+
+    <!-- Tu lugar en la fila -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#F3F1FA">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvHojaPosicion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#1"
+                android:textSize="44sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/comic_neue_bold"
+                android:textColor="#7A6FB5"/>
+
+            <TextView
+                android:id="@+id/tvHojaPosicionTexto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/texto_oscuro"/>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llHojaFila"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Cómo funciona -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="6dp"
+        android:text="🔔  Te avisaremos cuando llegue tu turno\n⏳  Tendrás 48 horas de prioridad para obtenerlo\n❌  Puedes cancelar tu reserva cuando quieras"
+        android:textSize="14sp"
+        android:textColor="@color/texto_oscuro"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHojaConfirmar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:text="Confirmar reserva"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/blanco_card"
+        android:backgroundTint="#7A6FB5"
+        app:cornerRadius="28dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHojaCancelarReserva"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:text="Cancelar mi reserva"
+        android:textAllCaps="false"
+        android:textColor="#D64550"
+        app:strokeColor="#D64550"
+        app:cornerRadius="28dp"/>
+</LinearLayout>

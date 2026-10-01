@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Tapa del libro -->
+    <path
+        android:fillColor="#3D5FA8"
+        android:pathData="M30,64 L54,70 L78,64 L78,75 L54,81 L30,75 Z"/>
+
+    <!-- Página izquierda -->
+    <path
+        android:fillColor="#FFF3DA"
+        android:strokeColor="#3D5FA8"
+        android:strokeWidth="1.2"
+        android:pathData="M31,52 Q43,48 54,54 L54,75 Q43,70 31,72 Z"/>
+
+    <!-- Página derecha -->
+    <path
+        android:fillColor="#FFF3DA"
+        android:strokeColor="#3D5FA8"
+        android:strokeWidth="1.2"
+        android:pathData="M77,52 Q65,48 54,54 L54,75 Q65,70 77,72 Z"/>
+
+    <!-- Líneas de texto de las páginas -->
+    <path
+        android:strokeColor="#D9C49B"
+        android:strokeWidth="1"
+        android:pathData="M35,57 Q43,55 50,58 M35,61 Q43,59 50,62 M35,65 Q43,63 50,66 M73,57 Q65,55 58,58 M73,61 Q65,59 58,62 M73,65 Q65,63 58,66"/>
+
+    <!-- Base del birrete -->
+    <path
+        android:fillColor="#3D5FA8"
+        android:pathData="M40,36.75 L40,44 Q54,50 68,44 L68,36.75 L54,42 Z"/>
+
+    <!-- Tapa del birrete -->
+    <path
+        android:fillColor="#2C4770"
+        android:pathData="M54,24 L78,33 L54,42 L30,33 Z"/>
+
+    <!-- Cordón de la borla -->
+    <path
+        android:strokeColor="#F2B632"
+        android:strokeWidth="1.5"
+        android:pathData="M54,33 L72,35.5 L72,45"/>
+
+    <!-- Borla -->
+    <path
+        android:fillColor="#F2B632"
+        android:pathData="M70.5,45 L73.5,45 L74,50 L70,50 Z"/>
+
+    <!-- Botón del birrete -->
+    <path
+        android:fillColor="#F2B632"
+        android:pathData="M52.4,33 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0"/>
+</vector>

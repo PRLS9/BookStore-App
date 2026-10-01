@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/blanco_card">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="28dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvEtiquetaInsignia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡NUEVA INSIGNIA!"
+                android:letterSpacing="0.15"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#7A6FB5"/>
+
+            <TextView
+                android:id="@+id/tvEmojiInsignia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="80sp"/>
+
+            <TextView
+                android:id="@+id/tvNombreInsignia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/comic_neue_bold"
+                android:textColor="@color/azul_marino"/>
+
+            <TextView
+                android:id="@+id/tvDescripcionInsignia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/texto_oscuro"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGenial"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                android:text="¡Genial! 🎉"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/blanco_card"
+                android:backgroundTint="#2E8B57"
+                app:cornerRadius="26dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Confeti por encima de la tarjeta -->
+    <com.example.bookstore.ConfetiView
+        android:id="@+id/confeti"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

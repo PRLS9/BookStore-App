@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blanco_card">#FFFFFF</color>
+    <color name="texto_oscuro">#1E1E1E</color>
+    <color name="azul_marino">#2C4770</color>
+    <color name="morado_bookstore">#7A6FB5</color>
+    <color name="dorado_bookstore">#D9A62E</color>
+</resources>

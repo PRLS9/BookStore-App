@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/fondo">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Grupo centrado: logo + texto + tarjeta -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/grupoContenido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Logo -->
+                <ImageView
+                    android:id="@+id/logoHome"
+                    android:layout_width="150dp"
+                    android:layout_height="90dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/logo"
+                    android:contentDescription="@string/logo_bookstore"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- Saludo -->
+                <TextView
+                    android:id="@+id/tvBienvenida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¡Bienvenido a BookStore!"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/comic_neue_bold"
+                    android:textColor="@color/texto_oscuro"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/logoHome"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- Puntos y nivel (toca para ver tus logros) -->
+                <TextView
+                    android:id="@+id/tvChipLogros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="⭐ Cargando logros…"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/azul_marino"
+                    android:background="@drawable/bg_cover_placeholder"
+                    android:backgroundTint="@color/blanco_card"
+                    android:elevation="3dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintTop_toBottomOf="@id/tvBienvenida"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- Tarjeta con el menú -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@color/blanco_card"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvChipLogros"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="24dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnRegistrarLibro"
+                            android:text="📚  Registrar un libro"
+                            android:textAllCaps="false"
+                            android:textColor="@color/blanco_card"
+                            app:cornerRadius="24dp"
+                            android:backgroundTint="@color/azul_marino"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMisLibros"
+                            android:text="🗂️  Mis libros"
+                            android:textAllCaps="false"
+                            android:textColor="@color/blanco_card"
+                            app:cornerRadius="24dp"
+                            android:backgroundTint="@color/azul_marino"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnBuscarLibros"
+                            android:text="🔍  Buscar libros"
+                            android:textAllCaps="false"
+                            android:textColor="@color/blanco_card"
+                            app:cornerRadius="24dp"
+                            android:backgroundTint="@color/morado_bookstore"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMisPrestamos"
+                            android:text="📖  Mis préstamos"
+                            android:textAllCaps="false"
+                            android:textColor="@color/blanco_card"
+                            app:cornerRadius="24dp"
+                            android:backgroundTint="@color/morado_bookstore"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCerrarSesion"
+                            android:text="🚪  Cerrar sesión"
+                            android:textAllCaps="false"
+                            android:textColor="@color/texto_oscuro"
+                            app:cornerRadius="24dp"
+                            android:backgroundTint="#E0E0E0"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"/>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Ícono de perfil (esquina superior derecha) -->
+    <TextView
+        android:id="@+id/tvAvatarHome"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="👤"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="@color/blanco_card"
+        android:background="@drawable/bg_avatar"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="Mi perfil"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Campanita de notificaciones (a la izquierda del perfil) -->
+    <FrameLayout
+        android:id="@+id/btnNotificaciones"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_circulo_blanco"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="Notificaciones"
+        app:layout_constraintTop_toTopOf="@id/tvAvatarHome"
+        app:layout_constraintEnd_toStartOf="@id/tvAvatarHome">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_campana"
+            android:importantForAccessibility="no"/>
+
+        <!-- Globito rojo con el número de avisos -->
+        <TextView
+            android:id="@+id/tvBadgeNotificaciones"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="top|end"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="@color/blanco_card"
+            android:background="@drawable/bg_badge"/>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
