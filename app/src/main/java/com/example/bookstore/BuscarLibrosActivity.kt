@@ -27,9 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
 import java.util.Date
 
 class BuscarLibrosActivity : AppCompatActivity() {
@@ -41,6 +39,8 @@ class BuscarLibrosActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+
+    private lateinit var prestamoService: PrestamoService
     private lateinit var adapter: LibroAdapter
     private lateinit var llGeneros: LinearLayout
     private lateinit var btnFiltrar: MaterialButton
@@ -92,6 +92,7 @@ class BuscarLibrosActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        prestamoService = PrestamoService(db)
 
         findViewById<MaterialButton>(R.id.btnRegresar).setOnClickListener { finish() }
 
@@ -634,65 +635,62 @@ class BuscarLibrosActivity : AppCompatActivity() {
     private fun enviarSolicitud(libro: Libro) {
         val uid = auth.currentUser?.uid ?: return
 
-        // 1. Revisa el límite de préstamos
-        db.collection("prestamos")
-            .whereEqualTo("usuarioId", uid)
-            .whereEqualTo("estado", ReglasPrestamo.ESTADO_ACTIVO)
-            .get()
-            .addOnSuccessListener { activos ->
-                if (activos.size() >= ReglasPrestamo.MAX_PRESTAMOS_ACTIVOS) {
-                    mostrarLimiteAlcanzado()
-                    return@addOnSuccessListener
-                }
+        // 1. Revisa el límite de préstamos (ahora lo decide PrestamoService)
+        prestamoService.verificarLimite(uid) { limite ->
+            when (limite) {
+                ResultadoLimite.Alcanzado -> mostrarLimiteAlcanzado()
+                is ResultadoLimite.Error ->
+                    Toast.makeText(this, "Error: ${limite.mensaje}", Toast.LENGTH_SHORT).show()
+                ResultadoLimite.Permitido -> crearSolicitud(libro, uid)
+            }
+        }
+    }
 
-                // 2. Toma tu nombre del perfil
-                db.collection("usuarios").document(uid).get()
-                    .addOnSuccessListener { usuario ->
-                        val nombre = EstadoSolicitud.nombreCorto(
-                            usuario.getString("nombre").orEmpty(),
-                            usuario.getString("apellidos").orEmpty()
-                        )
+    private fun crearSolicitud(libro: Libro, uid: String) {
+        // 2. Toma tu nombre del perfil
+        db.collection("usuarios").document(uid).get()
+            .addOnSuccessListener { usuario ->
+                val nombre = EstadoSolicitud.nombreCorto(
+                    usuario.getString("nombre").orEmpty(),
+                    usuario.getString("apellidos").orEmpty()
+                )
 
-                        // 3. Crea (o renueva) la solicitud
-                        val solicitud = hashMapOf(
-                            "libroId" to libro.id,
-                            "titulo" to libro.titulo,
-                            "autor" to libro.autor,
-                            "genero" to libro.genero,
-                            "propietarioId" to libro.propietarioId,
-                            "solicitanteId" to uid,
-                            "solicitanteNombre" to nombre,
-                            "estado" to EstadoSolicitud.PENDIENTE,
-                            "fechaSolicitud" to Timestamp.now(),
-                            "fechaRespuesta" to null
-                        )
+                // 3. Crea (o renueva) la solicitud
+                val solicitud = hashMapOf(
+                    "libroId" to libro.id,
+                    "titulo" to libro.titulo,
+                    "autor" to libro.autor,
+                    "genero" to libro.genero,
+                    "propietarioId" to libro.propietarioId,
+                    "solicitanteId" to uid,
+                    "solicitanteNombre" to nombre,
+                    "estado" to EstadoSolicitud.PENDIENTE,
+                    "fechaSolicitud" to Timestamp.now(),
+                    "fechaRespuesta" to null
+                )
 
-                        db.collection("solicitudes")
-                            .document(EstadoSolicitud.idPara(libro.id, uid))
-                            .set(solicitud)
-                            .addOnSuccessListener {
-                                // Si era tu turno, tu reserva queda cumplida
-                                if (libro.reservadoPara == uid) {
-                                    db.collection("reservas")
-                                        .document(Reservas.idPara(libro.id, uid))
-                                        .update("estado", Reservas.COMPLETADA)
-                                }
-                                Snackbar.make(
-                                    findViewById(R.id.main),
-                                    "Solicitud enviada. Si la aceptan, el libro aparecerá en Mis préstamos",
-                                    Snackbar.LENGTH_LONG
-                                ).show()
-                            }
-                            .addOnFailureListener { error ->
-                                Toast.makeText(this, "No se pudo enviar: ${error.message}", Toast.LENGTH_LONG).show()
-                            }
+                db.collection("solicitudes")
+                    .document(EstadoSolicitud.idPara(libro.id, uid))
+                    .set(solicitud)
+                    .addOnSuccessListener {
+                        // Si era tu turno, tu reserva queda cumplida
+                        if (libro.reservadoPara == uid) {
+                            db.collection("reservas")
+                                .document(Reservas.idPara(libro.id, uid))
+                                .update("estado", Reservas.COMPLETADA)
+                        }
+                        Snackbar.make(
+                            findViewById(R.id.main),
+                            "Solicitud enviada. Si la aceptan, el libro aparecerá en Mis préstamos",
+                            Snackbar.LENGTH_LONG
+                        ).show()
                     }
                     .addOnFailureListener { error ->
-                        Toast.makeText(this, "Error al leer tu perfil: ${error.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "No se pudo enviar: ${error.message}", Toast.LENGTH_LONG).show()
                     }
             }
             .addOnFailureListener { error ->
-                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al leer tu perfil: ${error.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -750,117 +748,50 @@ class BuscarLibrosActivity : AppCompatActivity() {
                         "Deberás devolverlo antes del ${ReglasPrestamo.formatear(fechaLimite)}."
             )
             .setNegativeButton("Cancelar", null)
-            .setPositiveButton("Obtener") { _, _ -> verificarLimiteYObtener(libro) }
+            .setPositiveButton("Obtener") { _, _ -> obtenerLibro(libro) }
             .show()
     }
 
-    // Revisa que el usuario no tenga ya el máximo de libros prestados
-    private fun verificarLimiteYObtener(libro: Libro) {
+    // La Activity solo pide el préstamo; las reglas y Firestore están en PrestamoService
+    private fun obtenerLibro(libro: Libro) {
         val uid = auth.currentUser?.uid
         if (uid == null) {
             Toast.makeText(this, "Debes iniciar sesión", Toast.LENGTH_SHORT).show()
             return
         }
-
-        db.collection("prestamos")
-            .whereEqualTo("usuarioId", uid)
-            .whereEqualTo("estado", ReglasPrestamo.ESTADO_ACTIVO)
-            .get()
-            .addOnSuccessListener { activos ->
-                if (activos.size() >= ReglasPrestamo.MAX_PRESTAMOS_ACTIVOS) {
-                    mostrarLimiteAlcanzado()
-                } else {
-                    registrarPrestamo(libro, uid)
-                }
-            }
-            .addOnFailureListener { error ->
-                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
+        prestamoService.obtenerLibro(libro, uid) { resultado -> mostrarResultadoPrestamo(resultado) }
     }
 
-    // Operación segura: respeta la prioridad de las reservas y evita que dos personas lo obtengan a la vez
-    private fun registrarPrestamo(libro: Libro, uid: String) {
-        val libroRef = db.collection("libros").document(libro.id)
-        val reservaRef = db.collection("reservas").document(Reservas.idPara(libro.id, uid))
-        val prestamoRef = db.collection("prestamos").document()
-        val ahora = Date()
-        val fechaLimite = ReglasPrestamo.sumarDias(ahora, ReglasPrestamo.DIAS_PRESTAMO)
-
-        db.runTransaction { transaccion ->
-            val documento = transaccion.get(libroRef)
-            val miReserva = transaccion.get(reservaRef)
-
-            val estadoActual = documento.getString("estado") ?: ""
-            if (!estadoActual.equals("disponible", ignoreCase = true)) {
-                throw FirebaseFirestoreException(
-                    "Este libro ya fue prestado",
-                    FirebaseFirestoreException.Code.ABORTED
-                )
+    // Traduce el resultado del servicio en mensajes para el estudiante
+    private fun mostrarResultadoPrestamo(resultado: ResultadoPrestamo) {
+        when (resultado) {
+            is ResultadoPrestamo.Exito -> {
+                Snackbar.make(
+                    findViewById(R.id.main),
+                    "¡Listo! Devuélvelo antes del ${ReglasPrestamo.formatear(resultado.fechaLimite)}",
+                    Snackbar.LENGTH_LONG
+                ).setAction("Ver préstamos") {
+                    startActivity(Intent(this, MisPrestamosActivity::class.java))
+                }.show()
+                cargarLibros()
             }
-
-            // Si está reservado para otra persona y su prioridad sigue vigente, no se puede
-            val reservadoPara = documento.getString("reservadoPara") ?: ""
-            val reservaHasta = documento.getTimestamp("reservaHasta")?.toDate()
-            if (reservadoPara.isNotEmpty() && reservadoPara != uid && reservaHasta?.after(Date()) == true) {
-                throw FirebaseFirestoreException(
-                    "Reservado para otro estudiante",
-                    FirebaseFirestoreException.Code.FAILED_PRECONDITION
-                )
+            ResultadoPrestamo.LimiteAlcanzado -> mostrarLimiteAlcanzado()
+            is ResultadoPrestamo.ErrorConsulta ->
+                Toast.makeText(this, "Error: ${resultado.mensaje}", Toast.LENGTH_SHORT).show()
+            ResultadoPrestamo.ReservadoParaOtro -> {
+                Toast.makeText(this, "Este libro está reservado para otro estudiante 🔒", Toast.LENGTH_SHORT).show()
+                cargarLibros()
             }
-
-            transaccion.update(
-                libroRef, mapOf(
-                    "estado" to "prestado",
-                    "prestadoA" to uid,
-                    "reservadoPara" to FieldValue.delete(),
-                    "reservaHasta" to FieldValue.delete()
-                )
-            )
-            transaccion.set(
-                prestamoRef, hashMapOf(
-                    "libroId" to libro.id,
-                    "titulo" to libro.titulo,
-                    "autor" to libro.autor,
-                    "genero" to libro.genero,
-                    "usuarioId" to uid,
-                    "fechaPrestamo" to Timestamp(ahora),
-                    "fechaLimite" to Timestamp(fechaLimite),
-                    "fechaDevolucion" to null,
-                    "estado" to ReglasPrestamo.ESTADO_ACTIVO,
-                    "renovado" to false
-                )
-            )
-
-            // Si tenías una reserva de este libro, queda cumplida
-            val estadoReserva = miReserva.getString("estado")
-            if (miReserva.exists() && (estadoReserva == Reservas.EN_ESPERA || estadoReserva == Reservas.TURNO)) {
-                transaccion.update(reservaRef, "estado", Reservas.COMPLETADA)
+            ResultadoPrestamo.NoDisponible -> {
+                Toast.makeText(this, "Alguien acaba de obtener este libro", Toast.LENGTH_SHORT).show()
+                cargarLibros()
             }
-            null
-        }.addOnSuccessListener {
-            Snackbar.make(
-                findViewById(R.id.main),
-                "¡Listo! Devuélvelo antes del ${ReglasPrestamo.formatear(fechaLimite)}",
-                Snackbar.LENGTH_LONG
-            ).setAction("Ver préstamos") {
-                startActivity(Intent(this, MisPrestamosActivity::class.java))
-            }.show()
-            cargarLibros()
-        }.addOnFailureListener { error ->
-            val mensaje = when {
-                error is FirebaseFirestoreException &&
-                        error.code == FirebaseFirestoreException.Code.FAILED_PRECONDITION ->
-                    "Este libro está reservado para otro estudiante 🔒"
-                error is FirebaseFirestoreException &&
-                        error.code == FirebaseFirestoreException.Code.ABORTED ->
-                    "Alguien acaba de obtener este libro"
-                else -> "No se pudo obtener el libro: ${error.message}"
+            is ResultadoPrestamo.ErrorRegistro -> {
+                Toast.makeText(this, "No se pudo obtener el libro: ${resultado.mensaje}", Toast.LENGTH_SHORT).show()
+                cargarLibros()
             }
-            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
-            cargarLibros()
         }
     }
-
     private fun pintarChipsGeneros() {
         llGeneros.removeAllViews()
         for (genero in chipsGeneros) {
