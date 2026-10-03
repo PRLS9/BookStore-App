@@ -92,7 +92,8 @@ class BuscarLibrosActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        prestamoService = PrestamoService(db)
+        // Inyección de dependencias: aquí se decide qué repositorio usa el servicio
+        prestamoService = PrestamoService(FirestorePrestamoRepository(db))
 
         findViewById<MaterialButton>(R.id.btnRegresar).setOnClickListener { finish() }
 
