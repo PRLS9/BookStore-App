@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.text.Normalizer
+
 
 class LibroAdapter(
     private val listaCompleta: List<Libro>,
@@ -84,28 +84,24 @@ class LibroAdapter(
 
     override fun getItemCount(): Int = listaFiltrada.size
 
-    private fun normalizar(texto: String): String {
-        val normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
-        return normalizado.replace(Regex("\\p{Mn}+"), "").lowercase().trim()
-    }
 
     private fun actualizarFiltros() {
-        val textoNorm = normalizar(filtroTexto)
-        val tituloNorm = normalizar(filtroTitulo)
-        val autorNorm = normalizar(filtroAutor)
-        val cursoNorm = normalizar(filtroCurso)
+        val textoNorm = TextoUtils.normalizar(filtroTexto)
+        val tituloNorm = TextoUtils.normalizar(filtroTitulo)
+        val autorNorm = TextoUtils.normalizar(filtroAutor)
+        val cursoNorm = TextoUtils.normalizar(filtroCurso)
 
         val filtrados = listaCompleta.filter { libro ->
             val coincideTexto = textoNorm.isEmpty() ||
-                    normalizar(libro.titulo).contains(textoNorm) ||
-                    normalizar(libro.autor).contains(textoNorm) ||
-                    normalizar(libro.genero).contains(textoNorm) ||
-                    normalizar(libro.curso).contains(textoNorm) ||
-                    normalizar(Oferta.tipoDe(libro)).contains(textoNorm)
+                    TextoUtils.normalizar(libro.titulo).contains(textoNorm) ||
+                    TextoUtils.normalizar(libro.autor).contains(textoNorm) ||
+                    TextoUtils.normalizar(libro.genero).contains(textoNorm) ||
+                    TextoUtils.normalizar(libro.curso).contains(textoNorm) ||
+                    TextoUtils.normalizar(Oferta.tipoDe(libro)).contains(textoNorm)
 
-            val coincideTitulo = tituloNorm.isEmpty() || normalizar(libro.titulo).contains(tituloNorm)
-            val coincideAutor = autorNorm.isEmpty() || normalizar(libro.autor).contains(autorNorm)
-            val coincideCurso = cursoNorm.isEmpty() || normalizar(libro.curso).contains(cursoNorm)
+            val coincideTitulo = tituloNorm.isEmpty() || TextoUtils.normalizar(libro.titulo).contains(tituloNorm)
+            val coincideAutor = autorNorm.isEmpty() || TextoUtils.normalizar(libro.autor).contains(autorNorm)
+            val coincideCurso = cursoNorm.isEmpty() || TextoUtils.normalizar(libro.curso).contains(cursoNorm)
             val coincideGenero = filtroGeneros.isEmpty() || libro.genero in filtroGeneros
             val coincideTipo = filtroTipo == FiltrosActivity.TODOS || Oferta.tipoDe(libro) == filtroTipo
 
@@ -121,9 +117,9 @@ class LibroAdapter(
         }
 
         listaFiltrada = when (orden) {
-            "Título Z-A" -> filtrados.sortedByDescending { normalizar(it.titulo) }
-            "Autor A-Z" -> filtrados.sortedBy { normalizar(it.autor) }
-            else -> filtrados.sortedBy { normalizar(it.titulo) }
+            "Título Z-A" -> filtrados.sortedByDescending { TextoUtils.normalizar(it.titulo) }
+            "Autor A-Z" -> filtrados.sortedBy { TextoUtils.normalizar(it.autor) }
+            else -> filtrados.sortedBy { TextoUtils.normalizar(it.titulo) }
         }
         notifyDataSetChanged()
     }
