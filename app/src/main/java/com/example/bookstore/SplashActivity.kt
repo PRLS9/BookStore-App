@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {
@@ -45,9 +46,13 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 MainActivity::class.java
             }
-            startActivity(Intent(this, destino))
-            // Transición suave hacia el login o el Home
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            // Mantenimiento adaptativo: la transición suave viaja junto con startActivity.
+            // Reemplaza a overridePendingTransition, obsoleto desde Android 14 (API 34),
+            // y funciona igual en todas las versiones desde minSdk 24, sin código obsoleto.
+            val transicion = ActivityOptionsCompat.makeCustomAnimation(
+                this, android.R.anim.fade_in, android.R.anim.fade_out
+            )
+            startActivity(Intent(this, destino), transicion.toBundle())
             finish()
         }, DURACION_SPLASH)
     }
