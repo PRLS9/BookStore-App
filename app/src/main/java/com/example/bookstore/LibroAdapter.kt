@@ -105,10 +105,10 @@ class LibroAdapter(
             val coincideGenero = filtroGeneros.isEmpty() || libro.genero in filtroGeneros
             val coincideTipo = filtroTipo == FiltrosActivity.TODOS || Oferta.tipoDe(libro) == filtroTipo
 
-            val estaDisponible = libro.estado.equals("disponible", ignoreCase = true)
+            val estaDisponible = libro.estado.equals(Oferta.ESTADO_DISPONIBLE, ignoreCase = true)
             val coincideDisponibilidad = when (filtroDisponibilidad) {
-                "Disponibles" -> estaDisponible
-                "Prestados" -> !estaDisponible
+                FiltrosActivity.DISPONIBLES -> estaDisponible
+                FiltrosActivity.PRESTADOS -> !estaDisponible
                 else -> true
             }
 
@@ -117,8 +117,8 @@ class LibroAdapter(
         }
 
         listaFiltrada = when (orden) {
-            "Título Z-A" -> filtrados.sortedByDescending { TextoUtils.normalizar(it.titulo) }
-            "Autor A-Z" -> filtrados.sortedBy { TextoUtils.normalizar(it.autor) }
+            FiltrosActivity.ORDEN_TITULO_ZA -> filtrados.sortedByDescending { TextoUtils.normalizar(it.titulo) }
+            FiltrosActivity.ORDEN_AUTOR_AZ -> filtrados.sortedBy { TextoUtils.normalizar(it.autor) }
             else -> filtrados.sortedBy { TextoUtils.normalizar(it.titulo) }
         }
         notifyDataSetChanged()

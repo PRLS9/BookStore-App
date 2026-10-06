@@ -156,7 +156,7 @@ class RegistrarLibroActivity : AppCompatActivity() {
                         "genero" to genero,
                         "curso" to curso,
                         "sinopsis" to sinopsis,
-                        "estado" to "disponible",
+                        "estado" to Oferta.ESTADO_DISPONIBLE,
                         "propietarioId" to uid,
                         "propietarioNombre" to nombreVisible,
                         "tipoOferta" to tipoSeleccionado
