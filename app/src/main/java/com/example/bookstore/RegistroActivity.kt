@@ -15,10 +15,6 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
-    private val regexSoloTexto = Regex("^[a-zA-ZÀ-ÿñÑ\\s]+$")
-    private val regexPassword = Regex("""^(?=.*[a-z])(?=.*[A-Z])(?=.*[\^${'$'}*.\[\]{}()?"!@#%&/\\,><':;|_~`]).{8,}$""")
-    private val regexCorreo = Regex("^[\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,}$")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
@@ -111,67 +107,37 @@ class RegistroActivity : AppCompatActivity() {
         }
     }
 
+    // CR-02: las reglas y los mensajes ahora vienen de Validaciones (DRY)
     private fun validarSoloTexto(til: TextInputLayout, et: TextInputEditText, mensaje: String): Boolean {
-        val texto = et.text.toString().trim()
-        return if (texto.isEmpty()) {
-            til.error = "Este campo es obligatorio"
-            false
-        } else if (!regexSoloTexto.matches(texto)) {
-            til.error = mensaje
-            false
-        } else {
-            til.error = null
-            true
-        }
+        val error = Validaciones.errorSoloTexto(et.text.toString().trim(), mensaje)
+        til.error = error
+        return error == null
     }
 
+    // Antes solo contaba 9 caracteres y aceptaba "98765-432"
     private fun validarCelular(til: TextInputLayout, et: TextInputEditText): Boolean {
-        val texto = et.text.toString().trim()
-        return if (texto.isEmpty()) {
-            til.error = "Este campo es obligatorio"
-            false
-        } else if (texto.length != 9) {
-            til.error = "El celular debe tener 9 dígitos"
-            false
-        } else {
-            til.error = null
-            true
-        }
+        val error = Validaciones.errorCelular(et.text.toString().trim())
+        til.error = error
+        return error == null
     }
 
     private fun validarCorreo(til: TextInputLayout, et: TextInputEditText): Boolean {
-        val texto = et.text.toString().trim()
-        return if (texto.isEmpty()) {
-            til.error = "Este campo es obligatorio"
-            false
-        } else if (!regexCorreo.matches(texto)) {
-            til.error = "Ingrese un correo válido"
-            false
-        } else {
-            til.error = null
-            true
-        }
+        val error = Validaciones.errorCorreo(et.text.toString().trim())
+        til.error = error
+        return error == null
     }
 
     private fun validarPassword(til: TextInputLayout, et: TextInputEditText): Boolean {
-        val texto = et.text.toString().trim()
-        return if (texto.isEmpty()) {
-            til.error = "Este campo es obligatorio"
-            false
-        } else if (!regexPassword.matches(texto)) {
-            til.error = "No cumple con los requisitos indicados abajo"
-            false
-        } else {
-            til.error = null
-            true
-        }
+        val error = Validaciones.errorPassword(et.text.toString().trim())
+        til.error = error
+        return error == null
     }
 
     private fun validarConfirmacion(til: TextInputLayout, etPassword: TextInputEditText, etConfirmar: TextInputEditText): Boolean {
         val password = etPassword.text.toString().trim()
         val confirmar = etConfirmar.text.toString().trim()
         return if (confirmar.isEmpty()) {
-            til.error = "Este campo es obligatorio"
+            til.error = Validaciones.CAMPO_OBLIGATORIO
             false
         } else if (password != confirmar) {
             til.error = "Las contraseñas no coinciden"
