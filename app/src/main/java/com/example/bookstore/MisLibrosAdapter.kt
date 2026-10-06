@@ -38,17 +38,17 @@ class MisLibrosAdapter(
 
         init {
             btnPrincipal.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion == RecyclerView.NO_POSITION) return@setOnClickListener
                 val libro = lista[posicion]
                 if (Oferta.estaFinalizado(libro)) onRepublicar(libro) else onFinalizar(libro)
             }
             btnEditar.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onEditar(lista[posicion])
             }
             btnEliminar.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onEliminar(lista[posicion])
             }
         }

@@ -37,11 +37,11 @@ class ReservaAdapter(
 
         init {
             btnIr.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onIrAlLibro(lista[posicion])
             }
             btnCancelar.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onCancelar(lista[posicion])
             }
         }

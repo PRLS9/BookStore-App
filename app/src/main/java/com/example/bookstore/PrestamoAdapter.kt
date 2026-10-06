@@ -34,11 +34,11 @@ class PrestamoAdapter(
 
         init {
             btnDevolver.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onDevolver(lista[posicion])
             }
             btnRenovar.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onRenovar(lista[posicion])
             }
         }

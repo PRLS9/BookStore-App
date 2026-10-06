@@ -54,7 +54,7 @@ class LibroAdapter(
 
         init {
             itemView.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) {
                     onLibroClick(listaFiltrada[posicion])
                 }
