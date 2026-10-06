@@ -131,7 +131,7 @@ class RegistrarLibroActivity : AppCompatActivity() {
                     val apellidos = documento.getString("apellidos")?.trim().orEmpty()
                     val celular = documento.getString("celular")?.trim().orEmpty()
 
-                    if (tipoSeleccionado != Oferta.PRESTAMO && !regexCelular.matches(celular)) {
+                    if (tipoSeleccionado != Oferta.PRESTAMO && !Validaciones.esCelularValido(celular)) {
                         btnGuardar.isEnabled = true
                         MaterialAlertDialogBuilder(this)
                             .setTitle("Falta tu celular")
@@ -147,9 +147,8 @@ class RegistrarLibroActivity : AppCompatActivity() {
                         return@addOnSuccessListener
                     }
 
-                    // Nombre corto para mostrar: "Peter R."
-                    val nombreVisible = (nombre.split(" ").first() + " " +
-                            apellidos.take(1).uppercase() + if (apellidos.isNotEmpty()) "." else "").trim()
+                    // CR-02: se reutiliza la regla que ya existía (DRY): "Peter R."
+                    val nombreVisible = EstadoSolicitud.nombreCorto(nombre, apellidos)
 
                     val libro = hashMapOf<String, Any>(
                         "titulo" to titulo,

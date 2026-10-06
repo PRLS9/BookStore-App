@@ -47,9 +47,7 @@ class PerfilActivity : AppCompatActivity() {
     private var celular = ""
     private var correo = ""
 
-    // Mismas reglas que en RegistroActivity
-    private val regexSoloTexto = Regex("^[a-zA-ZÀ-ÿñÑ\\s]+$")
-    private val regexCelular = Regex("^\\d{9}$")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -233,25 +231,14 @@ class PerfilActivity : AppCompatActivity() {
 
             var todoValido = true
 
-            tilNombre.error = when {
-                nuevoNombre.isEmpty() -> "Este campo es obligatorio"
-                !regexSoloTexto.matches(nuevoNombre) -> "Ingrese solo texto, sin números"
-                else -> null
-            }
+            // CR-02: mismas reglas que en Registro, desde Validaciones
+            tilNombre.error = Validaciones.errorSoloTexto(nuevoNombre, "Ingrese solo texto, sin números")
             if (tilNombre.error != null) todoValido = false
 
-            tilApellidos.error = when {
-                nuevosApellidos.isEmpty() -> "Este campo es obligatorio"
-                !regexSoloTexto.matches(nuevosApellidos) -> "Ingrese solo texto, sin números"
-                else -> null
-            }
+            tilApellidos.error = Validaciones.errorSoloTexto(nuevosApellidos, "Ingrese solo texto, sin números")
             if (tilApellidos.error != null) todoValido = false
 
-            tilCelular.error = when {
-                nuevoCelular.isEmpty() -> "Este campo es obligatorio"
-                !regexCelular.matches(nuevoCelular) -> "El celular debe tener 9 dígitos"
-                else -> null
-            }
+            tilCelular.error = Validaciones.errorCelular(nuevoCelular)
             if (tilCelular.error != null) todoValido = false
 
             if (!todoValido) return@setOnClickListener
