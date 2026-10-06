@@ -30,7 +30,7 @@ class InsigniaAdapter(
 
         init {
             card.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onTocar(lista[posicion])
             }
         }

@@ -46,4 +46,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
+    // Mantenimiento adaptativo: RecyclerView explícito (antes 1.1.0 por Material); trae bindingAdapterPosition
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }

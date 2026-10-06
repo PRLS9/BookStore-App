@@ -29,11 +29,11 @@ class SolicitudesAdapter(
 
         init {
             btnAceptar.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onAceptar(lista[posicion])
             }
             btnRechazar.setOnClickListener {
-                val posicion = adapterPosition
+                val posicion = bindingAdapterPosition
                 if (posicion != RecyclerView.NO_POSITION) onRechazar(lista[posicion])
             }
         }
