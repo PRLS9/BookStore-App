@@ -33,8 +33,15 @@ class FiltrosActivity : AppCompatActivity() {
         const val ORDEN_DEFECTO = "Título A-Z"
         const val CURSO_LIBRE = "Lectura libre"
 
-        val OPCIONES_ORDEN = listOf("Título A-Z", "Título Z-A", "Autor A-Z")
-        val OPCIONES_DISPONIBILIDAD = listOf("Todos", "Disponibles", "Prestados")
+        // Mantenimiento: opciones de filtro como constantes. LibroAdapter compara
+        // contra estas mismas constantes, así ambos archivos no pueden desincronizarse.
+        const val ORDEN_TITULO_ZA = "Título Z-A"
+        const val ORDEN_AUTOR_AZ = "Autor A-Z"
+        const val DISPONIBLES = "Disponibles"
+        const val PRESTADOS = "Prestados"
+
+        val OPCIONES_ORDEN = listOf(ORDEN_DEFECTO, ORDEN_TITULO_ZA, ORDEN_AUTOR_AZ)
+        val OPCIONES_DISPONIBILIDAD = listOf(TODOS, DISPONIBLES, PRESTADOS)
         val OPCIONES_TIPO = listOf(TODOS) + Oferta.TIPOS
         val GENEROS = listOf(
             "Romance", "Fantasía", "Terror", "Misterio", "Thriller",

@@ -202,7 +202,7 @@ class BuscarLibrosActivity : AppCompatActivity() {
         vista.findViewById<TextView>(R.id.tvDetalleGenero).text =
             if (libro.curso.isNotEmpty()) "${libro.genero}\nCurso: ${libro.curso}" else libro.genero
 
-        val disponible = libro.estado.equals("disponible", ignoreCase = true)
+        val disponible = libro.estado.equals(Oferta.ESTADO_DISPONIBLE, ignoreCase = true)
         val loTengoYo = !disponible && uid != null && libro.prestadoA == uid
         val esMio = uid != null && libro.propietarioId == uid
         val esDeEstudiante = libro.propietarioId.isNotEmpty()
